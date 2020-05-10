@@ -7,12 +7,12 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support.ui import WebDriverWait
 import time
-import config
+#import config
+import os
 
 from twilio.rest import Client
 
 print('== Starting... ==')
-
 browser = webdriver.Chrome()
 browser.get('https://www.publix.com/savings/all-deals/meat')
 choose_store = browser.find_elements_by_xpath('//*[@id="main"]/div[4]/div[2]/div/div/button')[0]
@@ -56,14 +56,17 @@ for deal in deal_container:
     all += '\n'
 
 print(all)
+'''
+client = Client(os.environ['ACCOUNT_SID'] or config.values['account_sid'], os.environ['AUTH_TOKEN'] or config.values['auth_token'])
 
-client = Client(config.values['account_sid'], config.values['auth_token'])
 
 client.messages.create(
-    to=config.values['my_phone'],
-    from_=config.values['twilio_phone'],
+    to=os.environ['MY_PHONE'] or config.values['my_phone'],
+    from_=os.environ['TWILIO_PHONE'] or config.values['twilio_phone'],
     body=all
 )
+'''
+
 
 
 '''
