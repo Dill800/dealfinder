@@ -12,6 +12,7 @@ import os
 
 from twilio.rest import Client
 
+'''
 print('== Starting... ==')
 browser = webdriver.Chrome()
 browser.get('https://www.publix.com/savings/all-deals/meat')
@@ -56,6 +57,7 @@ for deal in deal_container:
     all += '\n'
 
 print(all)
+'''
 '''
 client = Client(os.environ['ACCOUNT_SID'] or config.values['account_sid'], os.environ['AUTH_TOKEN'] or config.values['auth_token'])
 
