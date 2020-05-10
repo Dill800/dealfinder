@@ -79,6 +79,7 @@ app = Flask(__name__)
 @app.route('/')
 def function():
 
+    '''
     chrome_options = webdriver.ChromeOptions();
     chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
     chrome_options.add_argument("--headless")
@@ -88,6 +89,13 @@ def function():
 
     driver.get('https://www.google.com')
     return driver.page_source
+    '''
+
+    browser = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
+    browser.get('https://www.publix.com/savings/all-deals/meat')
+    return browser.page_source
+    
+
 
 @app.route('/scrape', methods=['GET'])
 def scrape():
