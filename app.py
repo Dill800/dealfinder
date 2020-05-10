@@ -7,6 +7,9 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support.ui import WebDriverWait
 import time
+import config
+
+from twilio.rest import Client
 
 print('== Starting... ==')
 
@@ -15,8 +18,11 @@ browser.get('https://www.publix.com/savings/all-deals/meat')
 choose_store = browser.find_elements_by_xpath('//*[@id="main"]/div[4]/div[2]/div/div/button')[0]
 choose_store.click()
 
+time.sleep(1)
+
 type_store = browser.find_elements_by_xpath('//*[@id="body-wrapper"]/div[2]/div/div/div[2]/div[1]/form/div[1]/div/input')[0]
 type_store.send_keys('32612')
+time.sleep(1)
 type_store.send_keys(Keys.ENTER)
 
 # wait for response
@@ -30,10 +36,13 @@ time.sleep(1)
 html = browser.page_source
 soup = BeautifulSoup(html, 'html.parser')
 
+all = ''
+
 deal_container = soup.find_all('div', class_='text-block-primary card-title clamp-2')
 
 for deal in deal_container:
-    print(deal.text)
+    all += deal.text
+    all += '\n'
 
 browser.get('https://www.publix.com/savings/all-deals/produce')
 time.sleep(1)
@@ -43,11 +52,18 @@ soup = BeautifulSoup(html, 'html.parser')
 deal_container = soup.find_all('div', class_='text-block-primary card-title clamp-2')
 
 for deal in deal_container:
-    print(deal.text)
+    all += deal.text
+    all += '\n'
 
+print(all)
 
+client = Client(config.values['account_sid'], config.values['auth_token'])
 
-
+client.messages.create(
+    to=config.values['my_phone'],
+    from_=config.values['twilio_phone'],
+    body=all
+)
 
 
 '''
