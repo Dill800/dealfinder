@@ -78,7 +78,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def function():
-    print('<h1>o hello dere</h1>')
+    return '<h1>o hello dere</h1>'
 
 @app.route('/scrape', methods=['GET'])
 def scrape():
