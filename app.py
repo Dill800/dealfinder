@@ -91,6 +91,7 @@ def function():
 
     return browser.page_source
 
+    '''
     choose_store = browser.find_elements_by_xpath('//*[@id="main"]/div[4]/div[2]/div/div/button')[0]
     choose_store.click()
 
@@ -121,7 +122,7 @@ def function():
         all += '\n'
 
     return all
-    
+    '''
 
 
 @app.route('/scrape', methods=['GET'])
