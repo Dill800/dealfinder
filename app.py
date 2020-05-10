@@ -102,7 +102,38 @@ def function():
     time.sleep(2)
     
     
-    return browser.page_source
+    orig_source = browser.page_source
+
+    return orig_source
+
+    choose_store = browser.find_elements_by_xpath('//*[@id="main"]/div[4]/div[2]/div/div/button')[0]
+    choose_store.click()
+
+    time.sleep(1)
+
+    type_store = browser.find_elements_by_xpath('//*[@id="body-wrapper"]/div[2]/div/div/div[2]/div[1]/form/div[1]/div/input')[0]
+    type_store.send_keys('32612')
+    time.sleep(1)
+    type_store.send_keys(Keys.ENTER)
+
+    # wait for response
+    time.sleep(2)
+
+    village_market = browser.find_elements_by_xpath('//*[@id="body-wrapper"]/div[2]/div/div/div[2]/div[2]/div/ul/li[2]/div/button')[0]
+    village_market.click();
+    time.sleep(1)
+    browser.get('https://www.publix.com/savings/all-deals/meat')
+    time.sleep(1)
+    html = browser.page_source
+    soup = BeautifulSoup(html, 'html.parser')
+
+    all = ''
+
+    deal_container = soup.find_all('div', class_='text-block-primary card-title clamp-2')
+
+    for deal in deal_container:
+        all += deal.text
+        all += '\n'
     
 
 
