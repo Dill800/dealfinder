@@ -159,7 +159,7 @@ def sms_reply():
     client.messages.create(
         to=os.environ['MY_PHONE'],
         from_=os.environ['TWILIO_PHONE'],
-        body=all
+        body=answer
     )
 
     '''
