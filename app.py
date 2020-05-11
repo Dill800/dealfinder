@@ -80,19 +80,12 @@ app = Flask(__name__)
 @app.route('/')
 def function():
     
-    '''
     chrome_options = webdriver.ChromeOptions();
     chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN") 
     chrome_options.add_argument("--headless")
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--no-sandbox")
     browser = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
-    '''
-
-    chrome_options = webdriver.ChromeOptions()
-    prefs = {"profile.managed_default_content_settings.images": 2}
-    chrome_options.add_experimental_option("prefs", prefs)
-    driver = webdriver.Chrome(chrome_options=chrome_options)
 
     browser.get('https://www.publix.com/savings/all-deals/meat')
 
@@ -116,7 +109,7 @@ def function():
         time.sleep(1)
 
         village_market = browser.find_elements_by_xpath('//*[@id="body-wrapper"]/div[2]/div/div/div[2]/div[2]/div/ul/li[2]/div/button')[0]
-        village_market.click();
+        village_market.click()
         time.sleep(1)
         browser.get('https://www.publix.com/savings/all-deals/meat')
         time.sleep(1)
@@ -139,6 +132,10 @@ def function():
     except:
         return orig_source + '\n' + 'something went wrong'
 
+@app.route('/test')
+def test():
+    return getCategory('meat')
+
 @app.route("/sms", methods=['POST'])
 def sms_reply():
     '''
@@ -155,13 +152,14 @@ def sms_reply():
     msg = request.form.get('Body')
     answer = getCategory(msg)
 
-    client = Client(config.values['account_sid'], config.values['auth_token'])
+    #loophole works
+    client = Client(os.environ['ACCOUNT_SID'] or config.values['account_sid'], os.environ['AUTH_TOKEN'] or config.values['auth_token'])
 
 
     client.messages.create(
-        to=config.values['my_phone'],
-        from_=config.values['twilio_phone'],
-        body=answer
+        to=os.environ['MY_PHONE'] or config.values['my_phone'],
+        from_=os.environ['TWILIO_PHONE'] or config.values['twilio_phone'],
+        body=all
     )
 
     '''
@@ -172,19 +170,6 @@ def sms_reply():
     '''
 
     return "done loading"
-
-@app.route('/binch')
-def fun():
-    resp = MessagingResponse()
-    resp.message('fuck this man')
-
-    print('this is being called... fallback')
-
-    return str(resp)
-
-@app.route('/yagga')
-def yagga():
-    return getCategory('meat')
 
 def getCategory(category):
 
@@ -220,11 +205,18 @@ def getCategory(category):
 
     all = ''
 
-    deal_container = soup.find_all('div', class_='text-block-primary card-title clamp-2')
+    deal_container = soup.find_all('div', class_='content-wrapper')
 
     for deal in deal_container:
-        all += deal.text
-        all += '\n'
+        title = deal.find('div', class_='text-block-primary card-title clamp-2')
+        all += title.text
+
+        deal_info = deal.find('div', class_='deal-info')
+        if deal_info is not None:
+            all += '\n'
+            all += deal_info.text
+
+        all += '\n\n'
     
     browser.close()
 
