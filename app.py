@@ -7,7 +7,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support.ui import WebDriverWait
 import time
-import config
+#import config
 import os
 
 from twilio.rest import Client
@@ -153,12 +153,12 @@ def sms_reply():
     answer = getCategory(msg)
 
     #loophole works
-    client = Client(os.environ['ACCOUNT_SID'] or config.values['account_sid'], os.environ['AUTH_TOKEN'] or config.values['auth_token'])
+    client = Client(os.environ['ACCOUNT_SID'], os.environ['AUTH_TOKEN'])
 
 
     client.messages.create(
-        to=os.environ['MY_PHONE'] or config.values['my_phone'],
-        from_=os.environ['TWILIO_PHONE'] or config.values['twilio_phone'],
+        to=os.environ['MY_PHONE'],
+        from_=os.environ['TWILIO_PHONE'],
         body=all
     )
 
