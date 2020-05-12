@@ -4,4 +4,6 @@ python application that allows verified numbers to text a certain phone number i
 developed using python flask, beautifulsoup, selenium, and twilio. hosted on heroku
 
 demo:
-![](demo.gif)
+
+
+![](dealfinder-demo.gif)
