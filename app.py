@@ -123,7 +123,7 @@ def getSales():
     browser.get('https://www.publix.com/savings/all-deals')
 
     time.sleep(2)
-
+ 
     # Check for Feedback popup
     try:
         show_all = browser.find_elements_by_xpath('//*[@id="main"]/div[4]/div[2]/div[2]/div[3]/button')[0]
