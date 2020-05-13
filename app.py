@@ -126,7 +126,7 @@ def getSales():
  
     # Check for Feedback popup
     try:
-        show_all = browser.find_elements_by_xpath('//*[@id="main"]/div[4]/div[2]/div[2]/div[3]/button')[0]
+        show_all = browser.find_elements_by_xpath('//*[@id="main"]/div[3]/div[2]/div[2]/div[3]/button')[0]
         show_all.click()
     except:
         # handle
@@ -134,7 +134,7 @@ def getSales():
         exiter = browser.find_elements_by_xpath('//*[@id="fsrInvite"]/section[3]/button[2]')[0]
         exiter.click()
         time.sleep(1)
-        show_all = browser.find_elements_by_xpath('//*[@id="main"]/div[4]/div[2]/div[2]/div[3]/button')[0]
+        show_all = browser.find_elements_by_xpath('//*[@id="main"]/div[3]/div[2]/div[2]/div[3]/button')[0]
         show_all.click()
 
     # selenium to beautifulsoup
